@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block body %}
+<h1>Upload document</h1><p class="sub">Add a file and choose who can open it.</p>
+<form class="card" method="post" enctype="multipart/form-data" style="max-width:620px">
+<label>Title</label><input name="title" required>
+<label>Category</label><select name="category">{% for c in cats %}<option>{{ c }}</option>{% endfor %}</select>
+<label>File (max 16 MB)</label><input type="file" name="file" required>
+<label>Share with (hold Ctrl to pick several)</label>
+<select name="share_with" multiple>{% for u in others %}<option value="{{ u.id }}">{{ u.name }} ({{ u.role }}) – {{ u.email }}</option>{% endfor %}</select>
+<label>Permission for selected users</label><select name="permission"><option value="read">Read only</option><option value="edit">Read and edit</option></select><br><br>
+<button>Upload document</button></form>{% endblock %}

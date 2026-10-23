@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TrustVault</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head><body>
+{% if g.user %}
+<div class="top"><b style="color:var(--em)">TrustVault</b><button onclick="document.getElementById('nav').classList.toggle('open')">Menu</button></div>
+<div class="shell"><nav class="side" id="nav">
+ <div class="brand">TrustVault</div>
+ {% set items=[] %}
+ {% if g.user.role=='admin' %}{% set _=items.append(('dashboard','Dashboard')) %}{% endif %}
+ {% set _=items.extend([('my_docs','My documents'),('search','Search documents')]) %}
+ {% if g.user.role!='viewer' %}{% set _=items.append(('upload','Upload document')) %}{% endif %}
+ {% if g.user.role=='admin' %}{% set _=items.extend([('users','Manage users'),('logs','Activity logs')]) %}{% endif %}
+ {% set _=items.append(('profile','Profile')) %}
+ {% for ep,label in items %}<a class="nav {{ 'on' if request.endpoint==ep }}" href="{{ url_for(ep) }}">{{ label }}</a>{% endfor %}
+ <a class="nav" href="{{ url_for('logout') }}">Sign out</a>
+ <div class="me">
+  {% if g.user.avatar %}<img class="av" src="{{ url_for('static', filename=g.user.avatar) }}" alt="">{% else %}<div class="av">{{ g.user.name[0]|upper }}</div>{% endif %}
+  <div>{{ g.user.name }}<small>{{ g.user.role }} · {{ g.user.company }}</small></div></div>
+</nav><main>
+{% else %}<div class="auth">{% endif %}
+{% for c,m in get_flashed_messages(with_categories=true) %}<div class="flash {{ c }}">{{ m }}</div>{% endfor %}
+{% block body %}{% endblock %}
+{% if g.user %}</main></div>{% else %}</div>{% endif %}
+</body></html>

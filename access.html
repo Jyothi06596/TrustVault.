@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% block body %}
+<h1>Manage access</h1><p class="sub">{{ d.title }} · owned by {{ d.owner }}</p>
+<div class="card"><h2>People with access</h2>
+{% if shared %}<div class="scroll"><table><tr><th>User</th><th>Permission</th><th></th></tr>
+{% for s in shared %}<tr><td>{{ s.name }}<br><small style="color:var(--mut)">{{ s.email }}</small></td><td><span class="tag">{{ s.permission }}</span></td>
+<td><form class="inline" method="post"><input type="hidden" name="action" value="revoke"><input type="hidden" name="uid" value="{{ s.id }}"><button class="danger">Revoke</button></form></td></tr>{% endfor %}</table></div>
+{% else %}<div class="empty">Not shared with anyone.</div>{% endif %}</div>
+<form class="card row" method="post"><input type="hidden" name="action" value="grant">
+<div><label>Grant access to</label><select name="uid" required>{% for u in cands %}<option value="{{ u.id }}">{{ u.name }} – {{ u.email }}</option>{% endfor %}</select></div>
+<div><label>Permission</label><select name="permission"><option value="read">Read only</option><option value="edit">Read and edit</option></select></div>
+<button>Grant access</button></form>
+<a href="{{ url_for('my_docs') }}">Back to documents</a>{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block body %}
+<h1>Search documents</h1><p class="sub">Filter by name, category, owner or date.</p>
+<form class="card row" method="get">
+<div><label>Name</label><input name="q" value="{{ f.q }}"></div>
+<div><label>Category</label><select name="category"><option value="">All</option>{% for c in cats %}<option {{ 'selected' if f.category==c }}>{{ c }}</option>{% endfor %}</select></div>
+<div><label>Owner</label><input name="owner" value="{{ f.owner }}"></div>
+<div><label>From</label><input type="date" name="date_from" value="{{ f.date_from }}"></div>
+<div><label>To</label><input type="date" name="date_to" value="{{ f.date_to }}"></div>
+<button>Search</button></form>
+{% if searched %}<div class="card"><h2>{{ docs|length }} result(s)</h2>{% include "_doctable.html" %}</div>{% endif %}{% endblock %}

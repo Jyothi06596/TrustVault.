@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block body %}
+<h1>Manage users</h1><p class="sub">Change roles for people in your vault.</p>
+<div class="card scroll"><table class="stack"><tr><th>Name</th><th>Email</th><th>Company</th><th>Role</th></tr>
+{% for u in rows %}<tr><td>{{ u.name }}</td><td>{{ u.email }}</td><td>{{ u.company }}</td><td>
+{% if u.id==g.user.id %}<span class="tag">{{ u.role }} (you)</span>{% else %}
+<form class="inline" method="post"><input type="hidden" name="uid" value="{{ u.id }}">
+<select name="role" style="width:auto;display:inline" onchange="this.form.submit()">{% for r in ['admin','owner','viewer'] %}<option {{ 'selected' if u.role==r }}>{{ r }}</option>{% endfor %}</select></form>{% endif %}</td></tr>{% endfor %}</table></div>{% endblock %}

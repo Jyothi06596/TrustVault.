@@ -1,0 +1,4 @@
+{% extends "base.html" %}{% block body %}
+<h1>Activity logs</h1><p class="sub">Every sign-in, upload, share and blocked attempt. Visible to admins only.</p>
+<div class="card scroll"><table class="stack"><tr><th>Time</th><th>User</th><th>Action</th><th>Detail</th></tr>
+{% for l in rows %}<tr><td>{{ l.ts }}</td><td>{{ l.user_name }}</td><td>{% if l.action in ['ACCESS DENIED','LOGIN FAILED'] %}<span style="color:var(--err)">{{ l.action }}</span>{% else %}{{ l.action }}{% endif %}</td><td>{{ l.detail }}</td></tr>{% endfor %}</table></div>{% endblock %}

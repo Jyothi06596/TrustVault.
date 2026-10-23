@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block body %}
+<h1>Profile</h1><p class="sub">{{ g.user.email }} · {{ g.user.role }}</p>
+<form class="card" method="post" enctype="multipart/form-data" style="max-width:520px">
+<label>Name</label><input name="name" value="{{ g.user.name }}">
+<label>Profile image</label><input type="file" name="avatar" accept="image/*">
+<label>New password (leave blank to keep)</label><input type="password" name="password" minlength="6"><br><br>
+<button>Save profile</button></form>{% endblock %}

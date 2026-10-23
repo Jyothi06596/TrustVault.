@@ -1,0 +1,8 @@
+{% if docs %}<div class="scroll"><table class="stack"><tr><th>Title</th><th>Category</th><th>Owner</th><th>Uploaded</th><th>Your access</th><th></th></tr>
+{% for d in docs %}<tr><td>{{ d.title }}<br><small style="color:var(--mut)">{{ d.original }}</small></td>
+<td><span class="tag">{{ d.category }}</span></td><td>{{ d.owner }}</td><td>{{ d.created[:10] }}</td>
+<td>{{ 'Owner/Admin' if can_manage(d) else 'Shared' }}</td>
+<td><a class="btn ghost" href="{{ url_for('download', doc_id=d.id) }}">Download</a>
+{% if can_manage(d) %} <a class="btn ghost" href="{{ url_for('access', doc_id=d.id) }}">Access</a>
+<form class="inline" method="post" action="{{ url_for('delete', doc_id=d.id) }}" onsubmit="return confirm('Delete this document?')"><button class="danger">Delete</button></form>{% endif %}</td></tr>
+{% endfor %}</table></div>{% else %}<div class="empty">No documents here yet.</div>{% endif %}

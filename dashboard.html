@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block body %}
+<h1>Dashboard</h1><p class="sub">Everything happening in your vault.</p>
+<div class="grid">
+<div class="stat"><b>{{ s.docs }}</b><span>Documents uploaded</span></div>
+<div class="stat"><b>{{ s.users }}</b><span>Registered users</span></div>
+<div class="stat"><b>{{ s.shared_docs }}</b><span>Documents shared</span></div>
+<div class="stat"><b>{{ s.records }}</b><span>Share records</span></div></div>
+<div class="card"><h2>Security status</h2>
+<p><span class="tag">{{ 'Secure' if s.failed < 5 and s.denied < 5 else 'Review needed' }}</span></p>
+<p class="sub" style="margin:0">{{ s.denied }} blocked access attempts · {{ s.failed }} failed sign-ins · passwords hashed · role checks on every action</p></div>
+<div class="card"><h2>Recent activity</h2><div class="scroll"><table class="stack"><tr><th>Time</th><th>User</th><th>Action</th><th>Detail</th></tr>
+{% for l in recent %}<tr><td>{{ l.ts }}</td><td>{{ l.user_name }}</td><td>{{ l.action }}</td><td>{{ l.detail }}</td></tr>{% endfor %}</table></div></div>
+{% endblock %}
